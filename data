@@ -1,0 +1,2 @@
+/SocialServer/index.php?app=api&mod=weiba&act=dopost|username=root&password=ROOTXXOO|{"status":0,"data":"no auth"}
+/SocialServer/index.php?app=api&mod=weiba&act=dopost&uid=2942696&password=3bd437fbff655a7391a9f868f723c68dd68121eb|weiba_id=1000000&content=python测试&title=python的title|{"status":0,"data":"success"}
