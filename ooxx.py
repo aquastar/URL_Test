@@ -2,8 +2,9 @@ __author__ = 'Danny'
 
 #import cookie_lib
 import urllib2
+import re
 
-HOST_ADD = 'http://localhost'
+HOST_ADD = 'http://localhost/SocialServer'
 right_count = 0
 wrong_count = 0
 
@@ -18,6 +19,8 @@ wrong_count = 0
 # e.g. /index.php?app=api|username=root&password=xxoo|{"status":0,"data":"no auth"}
 
 for line in open('data'):
+    if re.search(r'^#', line):
+        continue
     line_arr = line.split('|')
 
     ## initial request
