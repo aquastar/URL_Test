@@ -41,6 +41,18 @@ for k, v in stat.items():
     print('FL:{:.2f}'.format(fl))
 
     print("\n[3rd question]")
+    # compatible
+    cnt_an_novel['not'] += cnt_an_novel['robot']
+    del cnt_an_novel['robot']
+    cnt_an_novel['notvery'] += cnt_an_novel['newbie']/2
+    cnt_an_novel['somewhat'] += cnt_an_novel['newbie']/2
+    del cnt_an_novel['newbie']
+    cnt_an_novel['extrem'] += cnt_an_novel['expert']
+    del cnt_an_novel['expert']
+
     for ele in cnt_an_novel:
         print("{}:{:.2f}".format(ele, float(cnt_an_novel[ele]) / len_novel), end='\t')
+
+
+
     print('\n')

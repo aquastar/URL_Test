@@ -12,7 +12,7 @@ with open('amt_input.csv', "w") as csv_file:
     # write the header
     csv_file.write('baseline_name,jazz_link,baseline_link\n')
 
-    for _ in range(150):
+    for _ in range(100):
         t = random.choice(test_music)
         b = random.choice(base_music)
         line = '{},{}{}{}, {}{}{}\n'.format(b.split(os.sep)[1], base_link, t, para, base_link, b, para)
