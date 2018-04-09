@@ -1,7 +1,9 @@
-import os
+import numpy as np
 import pretty_midi
-
+from pyemd import emd_samples
 from collections import defaultdict, Counter
+import _pickle as pk
+import os.path
 
 
 def leaders(xs, sort_id=0):
@@ -11,9 +13,47 @@ def leaders(xs, sort_id=0):
     return sorted(counts.items(), key=lambda tup: tup[sort_id])
 
 
-note_list = []
+# read A and B
 
-dir = 'data'
+# calculate pitch and duration distributions
+ab_list_pitch = []
+ab_list_duration = []
+if os.path.exists('ab_list_duration.pk') and os.path.exists('ab_list_pitch.pk'):
+    ab_list_duration = pk.load(open('ab_list_duration.pk', 'rb'))
+    ab_list_pitch = pk.load(open('ab_list_pitch.pk', 'rb'))
+else:
+    dir = 'data'
+    ab_list = []
+    for dir_name in os.listdir(dir):
+        note_list = []
+        for filename in os.listdir(dir + os.sep + dir_name):
+            file_path = dir + os.sep + dir_name + os.sep + filename
+            with open(file_path, 'rt') as f:
+                try:
+                    pm = pretty_midi.PrettyMIDI(file_path)
+                    note_list.extend(pm.instruments[0].notes)
+                except:
+                    continue
+        ab_list.append(note_list)
+
+    for _ in ab_list:
+        note_duration = []
+        note_pitch = []
+        for __ in _:
+            if __.end > __.start:
+                note_duration.append(round((__.end - __.start) * 16))
+                note_pitch.append(__.pitch % 12)
+        ab_list_duration.append(note_duration)
+        ab_list_pitch.append(note_pitch)
+
+    pk.dump(ab_list_duration, open('ab_list_duration.pk', 'wb'))
+    pk.dump(ab_list_pitch, open('ab_list_pitch.pk', 'wb'))
+
+# iterate every baseline
+
+
+note_list = []
+dir = '2'
 
 for dir_name in os.listdir(dir):
     for filename in os.listdir(dir + os.sep + dir_name):
@@ -29,16 +69,35 @@ for dir_name in os.listdir(dir):
     note_pitch = []
     for _ in note_list:
         if _.end > _.start:
-            note_duration.append(round((_.end - _.start)*16))
-            note_pitch.append(pretty_midi.note_number_to_name(_.pitch)[:-1])
+            note_duration.append(round((_.end - _.start) * 16))
+            note_pitch.append(_.pitch % 12)
 
-    pitch_dist = leaders(note_pitch)
-    duration_dist = leaders(note_duration)
+    # pitch_dist = leaders(note_pitch)
+    # duration_dist = leaders(note_duration)
     print('\n', dir_name)
-    for _, __ in enumerate(pitch_dist[3:] + pitch_dist[:3]):
-        print("({}, {})".format(_, __[1]), end='')
 
-    print('\n')
-    for _ in duration_dist:
-        if float(_[0]) <= 32:
-            print("({},{})".format(_[0], _[1]), end='')
+    # # calculate note pitch/duration
+    # ab_list_pitch = []
+    # ab_list_duration = []
+
+    for _ in ab_list_duration:
+        print(emd_samples(_, note_duration))
+
+        eud_dis = 0
+        _cnt = [Counter(_), Counter(note_duration)]
+        left_big = len(_cnt[0]) < len(_cnt[1])
+        for __ in _cnt[left_big].most_common():
+            if __[0] in _cnt[0] and __[0] in _cnt[1]:
+                eud_dis += (_cnt[1][__[0]] - _cnt[0][__[0]]) ** 2
+        print(eud_dis)
+
+    for _ in ab_list_pitch:
+        print(emd_samples(_, note_pitch))
+
+        eud_dis = 0
+        _cnt = [Counter(_), Counter(note_duration)]
+        left_big = len(_cnt[0]) < len(_cnt[1])
+        for __ in _cnt[left_big].most_common():
+            if __[0] in _cnt[0] and __[0] in _cnt[1]:
+                eud_dis += (_cnt[1][__[0]] - _cnt[0][__[0]]) ** 2
+        print(eud_dis)
