@@ -13,6 +13,16 @@ def leaders(xs, sort_id=0):
     return sorted(counts.items(), key=lambda tup: tup[sort_id])
 
 
+def eud_dis(x, y):
+    eud_dis = 0
+    _cnt = [Counter(x), Counter(y)]
+    left_big = len(_cnt[0]) < len(_cnt[1])
+    for __ in _cnt[left_big].most_common():
+        if __[0] in _cnt[0] and __[0] in _cnt[1]:
+            eud_dis += (_cnt[1][__[0]] - _cnt[0][__[0]]) ** 2
+    return eud_dis
+
+
 # read A and B
 
 # calculate pitch and duration distributions
@@ -80,24 +90,20 @@ for dir_name in os.listdir(dir):
     # ab_list_pitch = []
     # ab_list_duration = []
 
+    # A-x, B-x
     for _ in ab_list_duration:
         print(emd_samples(_, note_duration))
+        print(eud_dis(_, note_duration))
 
-        eud_dis = 0
-        _cnt = [Counter(_), Counter(note_duration)]
-        left_big = len(_cnt[0]) < len(_cnt[1])
-        for __ in _cnt[left_big].most_common():
-            if __[0] in _cnt[0] and __[0] in _cnt[1]:
-                eud_dis += (_cnt[1][__[0]] - _cnt[0][__[0]]) ** 2
-        print(eud_dis)
+    # A - B
+    print(emd_samples(ab_list_duration[0], ab_list_duration[1]))
+    print(eud_dis(ab_list_duration[0], ab_list_duration[1]))
 
+    # A-x, B-x
     for _ in ab_list_pitch:
         print(emd_samples(_, note_pitch))
+        print(eud_dis(_, note_pitch))
 
-        eud_dis = 0
-        _cnt = [Counter(_), Counter(note_duration)]
-        left_big = len(_cnt[0]) < len(_cnt[1])
-        for __ in _cnt[left_big].most_common():
-            if __[0] in _cnt[0] and __[0] in _cnt[1]:
-                eud_dis += (_cnt[1][__[0]] - _cnt[0][__[0]]) ** 2
-        print(eud_dis)
+    # A - B
+    print(emd_samples(ab_list_pitch[0], ab_list_pitch[1]))
+    print(eud_dis(ab_list_pitch[0], ab_list_pitch[1]))
