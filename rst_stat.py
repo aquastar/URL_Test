@@ -2,6 +2,8 @@ import csv
 from collections import Counter
 import os
 
+
+# amt q & a
 stat = {}
 
 dir = 'amt_rst'
@@ -36,9 +38,9 @@ for k, v in stat.items():
 
     print("[2nd question]")
     for ele in cnt_an_fusion:
-        print("{}:{:.2f}".format(ele, float(cnt_an_fusion[ele]) / len_fusion), end='\t')
+        print("{}:{:.3f}".format(ele, float(cnt_an_fusion[ele]) / len_fusion), end='\t')
     fl = 1 - (abs(cnt_an_fusion['jazz'] - cnt_an_fusion['folk']) + cnt_an_fusion['none']) / len_fusion
-    print('FL:{:.2f}'.format(fl))
+    print('FL:{:.3f}'.format(fl))
 
     print("\n[3rd question]")
     # compatible
@@ -51,7 +53,7 @@ for k, v in stat.items():
     del cnt_an_novel['expert']
 
     for ele in cnt_an_novel:
-        print("{}:{:.2f}".format(ele, float(cnt_an_novel[ele]) / len_novel), end='\t')
+        print("{}:{:.3f}".format(ele, float(cnt_an_novel[ele]) / len_novel), end='\t')
 
 
 
