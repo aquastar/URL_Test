@@ -90,20 +90,47 @@ for dir_name in os.listdir(dir):
     # ab_list_pitch = []
     # ab_list_duration = []
 
+    print("Duration:")
+
     # A-x, B-x
+    ab_x_emd = []
+    ab_x_eud = []
+
     for _ in ab_list_duration:
-        print(emd_samples(_, note_duration))
-        print(eud_dis(_, note_duration))
+        ab_x_emd.append(emd_samples(_, note_duration))
+        ab_x_eud.append(eud_dis(_, note_duration))
 
     # A - B
-    print(emd_samples(ab_list_duration[0], ab_list_duration[1]))
-    print(eud_dis(ab_list_duration[0], ab_list_duration[1]))
+    ab_emd = emd_samples(ab_list_duration[0], ab_list_duration[1])
+    ab_eud = eud_dis(ab_list_duration[0], ab_list_duration[1])
 
+    # diff and ratio
+    diff_emd = sum(ab_x_emd) - ab_emd
+    ratio_emd = sum(ab_x_emd) / ab_emd
+
+    diff_eud = sum(ab_x_eud) - ab_eud
+    ratio_eud = sum(ab_x_eud) / ab_eud
+
+    print("diff_emd:{:.3f} ratio_emd:{:.3f} diff_eud:{:.3f} ratio_eud:{:.3f}".format(diff_emd, ratio_emd, diff_eud, ratio_eud))
+
+    print("Pitch:")
     # A-x, B-x
+    ab_x_emd = []
+    ab_x_eud = []
+
     for _ in ab_list_pitch:
-        print(emd_samples(_, note_pitch))
-        print(eud_dis(_, note_pitch))
+        ab_x_emd.append(emd_samples(_, note_pitch))
+        ab_x_eud.append(eud_dis(_, note_pitch))
 
     # A - B
-    print(emd_samples(ab_list_pitch[0], ab_list_pitch[1]))
-    print(eud_dis(ab_list_pitch[0], ab_list_pitch[1]))
+    ab_emd = emd_samples(ab_list_pitch[0], ab_list_pitch[1])
+    ab_eud = eud_dis(ab_list_pitch[0], ab_list_pitch[1])
+
+    # diff and ratio
+    diff_emd = sum(ab_x_emd) - ab_emd
+    ratio_emd = sum(ab_x_emd) / ab_emd
+
+    diff_eud = sum(ab_x_eud) - ab_eud
+    ratio_eud = sum(ab_x_eud) / ab_eud
+
+    print("diff_emd:{:.3f} ratio_emd:{:.3f} diff_eud:{:.3f} ratio_eud:{:.3f}".format(diff_emd, ratio_emd, diff_eud, ratio_eud))
