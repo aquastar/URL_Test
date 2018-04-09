@@ -13,7 +13,7 @@ def leaders(xs, sort_id=0):
 
 note_list = []
 
-dir = '2'
+dir = 'data'
 
 for dir_name in os.listdir(dir):
     for filename in os.listdir(dir + os.sep + dir_name):
