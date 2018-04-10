@@ -13,7 +13,7 @@ def leaders(xs, sort_id=0):
 
 note_list = []
 
-dir = 'data'
+dir = '2'
 
 for dir_name in os.listdir(dir):
     for filename in os.listdir(dir + os.sep + dir_name):
@@ -29,7 +29,7 @@ for dir_name in os.listdir(dir):
     note_pitch = []
     for _ in note_list:
         if _.end > _.start:
-            note_duration.append(round((_.end - _.start)*16))
+            note_duration.append(round((_.end - _.start)*8))
             note_pitch.append(pretty_midi.note_number_to_name(_.pitch)[:-1])
 
     pitch_dist = leaders(note_pitch)

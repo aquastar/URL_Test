@@ -16,11 +16,11 @@ def leaders(xs, sort_id=0):
 def eud_dis(x, y):
     eud_dis = 0
     _cnt = [Counter(x), Counter(y)]
-    left_big = len(_cnt[0]) < len(_cnt[1])
-    for __ in _cnt[left_big].most_common():
-        if __[0] in _cnt[0] and __[0] in _cnt[1]:
-            eud_dis += (_cnt[1][__[0]] - _cnt[0][__[0]]) ** 2
-    return eud_dis
+    keys = set(list(Counter(x).keys()) + list(Counter(y).keys()))
+
+    for __ in keys:
+        eud_dis += (_cnt[1][__] - _cnt[0][__]) ** 2
+    return eud_dis ** .5
 
 
 # read A and B
@@ -111,7 +111,8 @@ for dir_name in os.listdir(dir):
     diff_eud = sum(ab_x_eud) - ab_eud
     ratio_eud = sum(ab_x_eud) / ab_eud
 
-    print("diff_emd:{:.3f} ratio_emd:{:.3f} diff_eud:{:.3f} ratio_eud:{:.3f}".format(diff_emd, ratio_emd, diff_eud, ratio_eud))
+    print("diff_emd:{:.3f} ratio_emd:{:.3f} diff_eud:{:.3f} ratio_eud:{:.3f}".format(diff_emd, ratio_emd, diff_eud,
+                                                                                     ratio_eud))
 
     print("Pitch:")
     # A-x, B-x
@@ -133,4 +134,5 @@ for dir_name in os.listdir(dir):
     diff_eud = sum(ab_x_eud) - ab_eud
     ratio_eud = sum(ab_x_eud) / ab_eud
 
-    print("diff_emd:{:.3f} ratio_emd:{:.3f} diff_eud:{:.3f} ratio_eud:{:.3f}".format(diff_emd, ratio_emd, diff_eud, ratio_eud))
+    print("diff_emd:{:.3f} ratio_emd:{:.3f} diff_eud:{:.3f} ratio_eud:{:.3f}".format(diff_emd, ratio_emd, diff_eud,
+                                                                                     ratio_eud))
